@@ -1,10 +1,12 @@
 ////// Constants 
-var DIRECTORY_SYNCNEEDED = './MatchData_SyncNeeded/';
-var DIRECTORY_SYNCD = './MatchData_Syncd/';
-var DIRECTORY_TOMERGE = './MatchData_ToMerge/';
-var DIRECTORY_MERGED = './MatchData_Merged/';
-var FILE_SVR_IP = '192.168.2.185'; //'localhost';
-var FILE_SVR_PORT = '8084';
+var DIRECTORY_SYNCNEEDED = '/Users/et0165154/Documents/Biomic Tigers Robotics/SvrMgr/MatchData_SyncNeeded/';
+var DIRECTORY_SYNCD = '/Users/et0165154/Documents/Biomic Tigers Robotics/SvrMgr/MatchData_Syncd/';
+var DIRECTORY_TOMERGE = '/Users/et0165154/Documents/Biomic Tigers Robotics/SvrMgr/MatchData_ToMerge/';
+var DIRECTORY_MERGED = '/Users/et0165154/Documents/Biomic Tigers Robotics/SvrMgr/MatchData_Merged/';
+//var FILE_SVR_IP = '192.168.2.185'; //'localhost';
+// Azure svr IP is listening on port 8083
+var AZURE_SVR_IP = '13.84.164.187';
+var AZURE_SVR_PORT = '8083';
 var FILE_RCV_PORT = '8083';
 
 ////// Required libraries
@@ -16,10 +18,8 @@ const move = require('./lib/move');
 
 var io = require('socket.io').listen(FILE_RCV_PORT);
 
-const port = process.argv[2] || FILE_SVR_PORT;
-
 // sender.js
-var socket = require('socket.io-client')('http://' + FILE_SVR_IP + ':' + FILE_SVR_PORT);
+var socket = require('socket.io-client')('http://' + AZURE_SVR_IP + ':' + AZURE_SVR_PORT);
 var dl = require('delivery');
 var async = require('async');
 
@@ -51,21 +51,15 @@ socket.on('connect', function() {
                 });
             });
         });
-    });
-})
-
-io.sockets.on('connection', function(socket) {
-    console.log('creating socket for listening');
-    var delivery = dl.listen(socket);
-
-    // if file to receive - save them to MatchData_Mergeddelivery.on('receive.success', function(file) {
-    delivery.on('receive.success', function(file) {
-        fs.writeFile(DIRECTORY_TOMERGE + file.name, file.buffer, function(err) {
-            if (err) {
-                console.log('File could not be saved.', file.uid, file.name);
-            } else {
-                console.log('File saved.', file.uid, file.name);
-            };
+        // if file to receive - save them to MatchData_Mergeddelivery.on('receive.success', function(file) {
+        delivery.on('receive.success', function(file) {
+            fs.writeFile(DIRECTORY_TOMERGE + file.name, file.buffer, function(err) {
+                if (err) {
+                    console.log('File could not be saved.', file.uid, file.name);
+                } else {
+                    console.log('File saved.', file.uid, file.name);
+                };
+            });
         });
     });
 })
