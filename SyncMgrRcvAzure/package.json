@@ -9,6 +9,9 @@
   "author": "Ben Park",
   "license": "ISC",
   "dependencies": {
-    "delivery": "0.0.6"
+    "async": "^2.1.5",
+    "delayed": "^1.0.1",
+    "delivery": "0.0.6",
+    "express": "^4.15.2"
   }
 }
