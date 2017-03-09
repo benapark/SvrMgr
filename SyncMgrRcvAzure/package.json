@@ -1,0 +1,14 @@
+{
+  "name": "scoutingreceiver",
+  "version": "1.0.0",
+  "description": "receiver side of sync system",
+  "main": "receiver.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ben Park",
+  "license": "ISC",
+  "dependencies": {
+    "delivery": "0.0.6"
+  }
+}
